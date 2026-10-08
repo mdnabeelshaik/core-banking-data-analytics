@@ -1,118 +1,282 @@
-# Core Banking Data & Analytics
+# Core Banking Data Analytics
 
-## Project Overview
+## 📌 Project Overview
 
-This project is an Oracle SQL-based Core Banking Data & Analytics project designed to simulate how banking data can be stored, managed, analyzed, and reported in a core banking environment.
+This project is a banking data analytics system built using **Oracle SQL**.
 
-The project uses a relational database structure containing branches, customers, accounts, and transactions. SQL queries are used to analyze banking data and generate meaningful business reports.
+The project simulates a basic core banking environment containing branches, customers, accounts, and banking transactions. SQL queries are used to retrieve, analyze, and summarize banking data to answer common business questions.
 
-## Objectives
+The project was designed to strengthen practical SQL skills while applying them to a **core banking domain**.
 
-- Understand how core banking data can be structured in a relational database.
-- Practice Oracle SQL using realistic banking scenarios.
-- Analyze customer, account, and transaction data.
-- Generate reports useful for banking operations and management.
-- Apply SQL concepts such as joins, subqueries, aggregation, CASE statements, CTEs, and analytical functions.
+---
 
-## Database Structure
+## 🎯 Project Objectives
 
-The project follows this basic relationship:
+- Understand how banking data is structured across multiple tables
+- Build relationships between branches, customers, accounts, and transactions
+- Practice SQL queries on realistic banking data
+- Analyze deposits, withdrawals, transactions, balances, and customer activity
+- Use joins and aggregate functions for banking analytics
+- Answer business questions using SQL
+
+---
+
+## 🛠️ Technologies Used
+
+- **Oracle Database**
+- **Oracle SQL**
+- **SQL Developer**
+- **Git & GitHub**
+
+---
+
+## 🏦 Database Structure
+
+The project contains five main modules:
 
 ```text
-BRANCHES
-   |
-   +---- CUSTOMERS
-             |
-             +---- ACCOUNTS
-                       |
-                       +---- TRANSACTIONS
-
-ACCOUNT_TYPES
+Branches
+   │
+   ├── Customers
+   │      │
+   │      └── Accounts
+   │              │
+   │              └── Transactions
+   │
+   └── Accounts
 ```
 
 ### Main Tables
 
-- **BRANCHES** – Stores bank branch information.
-- **CUSTOMERS** – Stores customer details and KYC status.
-- **ACCOUNT_TYPES** – Stores different types of bank accounts.
-- **ACCOUNTS** – Stores customer account information and balances.
-- **TRANSACTIONS** – Stores deposits, withdrawals, transfers, and other account transactions.
+| Table | Purpose |
+|---|---|
+| `branches` | Stores bank branch information |
+| `customers` | Stores customer information and KYC status |
+| `accounts` | Stores customer account information and balances |
+| `transactions` | Stores banking transaction records |
 
-## Key Analysis
+---
 
-The project will include analysis such as:
-
-- Customers by branch
-- Active and inactive accounts
-- Account balances
-- Deposit and withdrawal analysis
-- Monthly transaction volume
-- Highest transaction customers
-- Customer transaction history
-- Average account balance
-- Branch-wise performance
-- Unusual or suspicious transaction patterns
-
-## Technologies Used
-
-- Oracle Database
-- Oracle SQL
-- Git
-- GitHub
-
-## SQL Concepts Practiced
-
-- DDL
-- DML
-- Constraints
-- Primary Keys
-- Foreign Keys
-- Joins
-- GROUP BY
-- HAVING
-- CASE statements
-- Subqueries
-- Common Table Expressions (CTEs)
-- Aggregate Functions
-- Window Functions
-- Views
-- Reporting Queries
-
-## Project Structure
+## 📂 Project Structure
 
 ```text
 core-banking-data-analytics/
 │
-├── database/
-│   ├── tables/
-│   └── sample_data/
+├── branches/
+│   ├── branch_table.sql
+│   ├── branch_data.sql
+│   └── branch_queries.sql
 │
-├── sql/
-│   ├── basic_queries/
-│   ├── analytical_queries/
-│   └── reports/
+├── customers/
+│   ├── customer_table.sql
+│   ├── customer_data.sql
+│   └── customer_queries.sql
 │
-├── documentation/
+├── accounts/
+│   ├── account_table.sql
+│   ├── account_data.sql
+│   └── account_queries.sql
+│
+├── transactions/
+│   ├── transaction_table.sql
+│   ├── transaction_data.sql
+│   └── transaction_queries.sql
+│
+├── analytics/
+│   └── banking_analytics.sql
 │
 └── README.md
 ```
 
-## Purpose
+---
 
-This project is part of my learning journey toward working in **Core Banking, Finacle, and Banking Technology**. It focuses on building a practical understanding of banking data and applying Oracle SQL to real-world banking scenarios.
+## 🔗 Table Relationships
 
-## Future Enhancements
+The project uses primary keys and foreign keys to establish relationships between tables.
 
-- Add PL/SQL procedures and functions
-- Add transaction-processing business logic
-- Add banking reconciliation reports
-- Add loan and EMI analysis
-- Add more advanced analytical queries
-- Integrate the project with a simple application
-- Extend the project toward a Finacle-inspired banking system
+```text
+branches
+   │
+   │ branch_id
+   ↓
+accounts
+   │
+   │ account_id
+   ↓
+transactions
 
-## Author
+customers
+   │
+   │ customer_id
+   ↓
+accounts
+```
+
+### Relationships
+
+- One customer can have one or more accounts.
+- One branch can have multiple accounts.
+- One account can have multiple transactions.
+- Transactions are connected to accounts through `account_id`.
+
+---
+
+## 📊 Banking Analytics
+
+The project contains cross-table analytics for questions such as:
+
+1. Which account belongs to each customer?
+2. How much did each customer successfully deposit?
+3. How much did each customer successfully withdraw?
+4. Which customers have the highest transaction activity?
+5. Which branches hold the highest total account balance?
+6. Which branches process the highest transaction volume?
+7. Which customers have failed or pending transactions?
+8. What is the transaction activity for each account?
+9. Which customers have the highest successful transaction amount?
+10. What is the overall banking activity?
+
+---
+
+## 🧠 SQL Concepts Used
+
+This project demonstrates practical use of:
+
+- `CREATE TABLE`
+- `INSERT`
+- `SELECT`
+- `WHERE`
+- `JOIN`
+- `INNER JOIN`
+- `LEFT JOIN`
+- `GROUP BY`
+- `ORDER BY`
+- `SUM()`
+- `COUNT()`
+- `AVG()`
+- `CASE`
+- `IN`
+- `DISTINCT`
+- `FETCH FIRST`
+- Primary Keys
+- Foreign Keys
+- Unique Constraints
+- Check Constraints
+- Default Values
+- Identity Columns
+- `COMMIT`
+
+---
+
+## 💼 Example Business Query
+
+### Business Question
+
+**How much money did each customer successfully withdraw?**
+
+```sql
+SELECT
+    c.customer_name,
+    SUM(t.transaction_amount) AS total_withdrawals
+FROM customers c
+JOIN accounts a
+    ON c.customer_id = a.customer_id
+JOIN transactions t
+    ON a.account_id = t.account_id
+WHERE t.transaction_type = 'WITHDRAWAL'
+  AND t.transaction_status = 'SUCCESS'
+GROUP BY c.customer_name
+ORDER BY total_withdrawals DESC;
+```
+
+### Business Logic
+
+```text
+Customer
+   ↓
+Account
+   ↓
+Transaction
+   ↓
+Filter successful withdrawals
+   ↓
+SUM transaction amount
+   ↓
+Group by customer
+```
+
+This demonstrates how SQL can be used to convert a banking business question into an analytical result.
+
+---
+
+## ▶️ How to Run the Project
+
+### 1. Install Oracle Database
+
+Use an Oracle Database environment such as Oracle Database XE.
+
+### 2. Open Oracle SQL Developer
+
+Connect to your Oracle database.
+
+### 3. Execute the SQL files in this order
+
+```text
+1. branches/branch_table.sql
+2. branches/branch_data.sql
+3. branches/branch_queries.sql
+
+4. customers/customer_table.sql
+5. customers/customer_data.sql
+6. customers/customer_queries.sql
+
+7. accounts/account_table.sql
+8. accounts/account_data.sql
+9. accounts/account_queries.sql
+
+10. transactions/transaction_table.sql
+11. transactions/transaction_data.sql
+12. transactions/transaction_queries.sql
+
+13. analytics/banking_analytics.sql
+```
+
+The table creation order is important because foreign keys depend on previously created tables.
+
+---
+
+## 📌 Project Scope
+
+This is a **learning and portfolio project** designed to demonstrate Oracle SQL and banking-domain data analysis.
+
+It is not a production banking system and does not implement actual banking transaction processing or real Finacle functionality.
+
+---
+
+## 🚀 Future Enhancements
+
+Possible future improvements include:
+
+- Advanced SQL analytics
+- Common Table Expressions (CTEs)
+- Window functions
+- Banking reconciliation analysis
+- More complex transaction analysis
+- PL/SQL-based banking logic in a separate project
+- Additional reporting queries
+- Data quality checks
+- Performance optimization
+
+---
+
+## 👨‍💻 Author
 
 **Shaik Nabeel**
 
-Aspiring Core Banking / Finacle Professional
+Oracle SQL | Core Banking Domain | FinTech
+
+---
+
+## ⭐ Key Learning Outcome
+
+This project helped develop practical understanding of how relational database tables can represent banking entities and how SQL can be used to connect, filter, aggregate, and analyze banking data.
