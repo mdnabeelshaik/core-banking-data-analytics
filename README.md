@@ -119,7 +119,16 @@ accounts
 - One account can have multiple transactions.
 - Transactions are connected to accounts through `account_id`.
 
----
+- 
+## Screen Shorts
+1) Branches
+<img width="1910" height="906" alt="Screenshot 2026-10-09 112826" src="https://github.com/user-attachments/assets/1d728304-669c-4f66-8826-93e5f77f07af" />
+2)Customers
+<img width="1867" height="877" alt="Screenshot 2026-10-09 112959" src="https://github.com/user-attachments/assets/e5b5e60e-49ba-4fd4-92be-6c03d4d12e2f" />
+3)Transactions
+<img width="1900" height="832" alt="Screenshot 2026-10-09 113031" src="https://github.com/user-attachments/assets/18484636-8dd0-402e-b0fc-17d6c38d6a27" />
+4)Analytics
+<img width="1887" height="820" alt="Screenshot 2026-10-09 113105" src="https://github.com/user-attachments/assets/4e89c560-5e07-4170-b466-7507ef193e3c" />
 
 ## 📊 Banking Analytics
 
